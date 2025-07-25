@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Topics - PromptMaster</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <header class="app-header">
+            <div class="header-container">
+                <h1 class="app-logo">PromptMaster</h1>
+                <div class="user-menu">
+                    <span class="user-name">Welcome, User</span>
+                    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="topics-layout">
+            <!-- Sidebar -->
+            <aside class="topics-sidebar">
+                <div class="sidebar-header">
+                    <button class="back-to-courses" onclick="window.location.href='course-selection.html'">
+                        ← Back to Courses
+                    </button>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+
+                </div>
+
+                <nav class="topics-nav">
+                    <ul class="topic-list" id="topicList">
+                        <!-- Topics will be populated by JavaScript -->
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="topics-main">
+                <div class="learning-container">
+                    <div class="learning-header">
+                        <div class="course-title">
+                            <h1>Prompt Engineering Course</h1>
+                            <a href="#" class="back-link">← Back to Topics</a>
+                        </div>
+                        <div class="step-progress">
+                            <span class="step-text">Step <span id="currentStepNum">1</span> of 5</span>
+                            <div class="progress-dots">
+                                <span class="dot active" data-step="1"></span>
+                                <span class="dot" data-step="2"></span>
+                                <span class="dot" data-step="3"></span>
+                                <span class="dot" data-step="4"></span>
+                                <span class="dot" data-step="5"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="learning-content">
+                        <div id="stepContent" class="step-content-area">
+                            <div class="welcome-message">
+                                <h2>Welcome to Prompt Engineering</h2>
+                                <p>Select a step from any topic to begin learning</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-playground-section">
+                            <div class="playground-header">
+                                <h2>🤖 AI Playground</h2>
+                            </div>
+                            <div class="playground-content">
+                                <div class="chat-area">
+                                    <div class="chat-messages" id="chatMessages">
+                                        <div class="start-message">
+                                            <p>Start a new conversation</p>
+                                            <small>Send the prompt to see how the AI responds. Your conversation will appear here.</small>
+                                        </div>
+                                    </div>
+                                    <div class="chat-input-area">
+                                        <textarea id="chatInput" placeholder="Enter your prompt solution here..."></textarea>
+                                        <button class="send-button" onclick="sendMessage()">➤</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Topic data for each level
+        const topicsData = {
+            beginner: {
+                title: 'Beginner Course',
+                topics: [
+                    { id: 1, title: 'Introduction to AI Prompting', duration: '15 min', completed: false },
+                    { id: 2, title: 'Understanding Prompt Structure', duration: '20 min', completed: false },
+                    { id: 3, title: 'Basic Prompt Patterns', duration: '25 min', completed: false },
+                    { id: 4, title: 'Clarity and Specificity', duration: '20 min', completed: false },
+                    { id: 5, title: 'Context in Prompts', duration: '20 min', completed: false },
+                    { id: 6, title: 'Formatting Your Prompts', duration: '15 min', completed: false },
+                    { id: 7, title: 'Common Mistakes to Avoid', duration: '20 min', completed: false },
+                    { id: 8, title: 'Practice Exercises', duration: '30 min', completed: false }
+                ]
+            },
+            intermediate: {
+                title: 'Intermediate Course',
+                topics: [
+                    { id: 1, title: 'Advanced Prompt Techniques', duration: '25 min', completed: false },
+                    { id: 2, title: 'Context Window Management', duration: '30 min', completed: false },
+                    { id: 3, title: 'Multi-turn Conversations', duration: '35 min', completed: false },
+                    { id: 4, title: 'Role-based Prompting', duration: '25 min', completed: false },
+                    { id: 5, title: 'Chain of Thought Prompting', duration: '30 min', completed: false },
+                    { id: 6, title: 'Few-shot Learning', duration: '35 min', completed: false },
+                    { id: 7, title: 'Domain-Specific Prompting', duration: '30 min', completed: false },
+                    { id: 8, title: 'Prompt Templates', duration: '25 min', completed: false },
+                    { id: 9, title: 'Output Formatting', duration: '20 min', completed: false },
+                    { id: 10, title: 'Error Handling', duration: '25 min', completed: false },
+                    { id: 11, title: 'Performance Optimization', duration: '30 min', completed: false },
+                    { id: 12, title: 'Advanced Practice', duration: '40 min', completed: false }
+                ]
+            },
+            advanced: {
+                title: 'Advanced Course',
+                topics: [
+                    { id: 1, title: 'Prompt Engineering Patterns', duration: '35 min', completed: false },
+                    { id: 2, title: 'System Design with AI', duration: '40 min', completed: false },
+                    { id: 3, title: 'Meta-Prompting', duration: '35 min', completed: false },
+                    { id: 4, title: 'Recursive Prompting', duration: '40 min', completed: false },
+                    { id: 5, title: 'AI Agent Design', duration: '45 min', completed: false },
+                    { id: 6, title: 'Enterprise Integration', duration: '40 min', completed: false },
+                    { id: 7, title: 'Security Considerations', duration: '30 min', completed: false },
+                    { id: 8, title: 'Scalability Patterns', duration: '35 min', completed: false },
+                    { id: 9, title: 'Cost Optimization', duration: '30 min', completed: false },
+                    { id: 10, title: 'Custom Model Training', duration: '45 min', completed: false },
+                    { id: 11, title: 'Evaluation Metrics', duration: '35 min', completed: false },
+                    { id: 12, title: 'Production Deployment', duration: '40 min', completed: false },
+                    { id: 13, title: 'Monitoring and Debugging', duration: '35 min', completed: false },
+                    { id: 14, title: 'Case Studies', duration: '45 min', completed: false },
+                    { id: 15, title: 'Final Project', duration: '60 min', completed: false }
+                ]
+            }
+        };
+
+        // Get selected level from session storage
+        const selectedLevel = sessionStorage.getItem('selectedLevel') || 'beginner';
+        const courseData = topicsData[selectedLevel];
+
+        // Page title removed - no longer needed
+
+        // Populate sidebar topics - limit to first 3 topics
+        const topicList = document.getElementById('topicList');
+        courseData.topics.slice(0, 3).forEach((topic, index) => {
+            const li = document.createElement('li');
+            li.className = `topic-item ${topic.completed ? 'completed' : ''}`;
+            li.innerHTML = `
+                <div class="topic-header">
+                    <span class="topic-number">${index + 1}</span>
+                    <span class="topic-name">${topic.title}</span>
+                    ${topic.completed ? '<span class="checkmark">✓</span>' : ''}
+                </div>
+                <div class="topic-steps" id="topic-steps-${index}">
+                    <div class="topic-step-item" onclick="showStepContent(${index}, 1, '${topic.title}')">
+                        <span class="step-num">1</span>
+                        <span class="step-text">Topic Explanation</span>
+                    </div>
+                    <div class="topic-step-item" onclick="showStepContent(${index}, 2, '${topic.title}')">
+                        <span class="step-num">2</span>
+                        <span class="step-text">Example Prompt</span>
+                    </div>
+                    <div class="topic-step-item" onclick="showStepContent(${index}, 3, '${topic.title}')">
+                        <span class="step-num">3</span>
+                        <span class="step-text">Execute Example</span>
+                    </div>
+                    <div class="topic-step-item" onclick="showStepContent(${index}, 4, '${topic.title}')">
+                        <span class="step-num">4</span>
+                        <span class="step-text">Practice Problems</span>
+                    </div>
+                </div>
+            `;
+            topicList.appendChild(li);
+        });
+
+        // Main grid removed - no content displayed on the right side
+
+        function startTopic(topicId) {
+            sessionStorage.setItem('currentTopicId', topicId);
+            sessionStorage.setItem('currentLevel', selectedLevel);
+            window.location.href = 'learning.html';
+        }
+
+
+        // Track current step and topic
+        let currentStep = 1;
+        let currentTopic = null;
+        let totalSteps = 4;
+        
+        function showStepContent(topicIndex, stepNumber, topicTitle) {
+            const stepContent = document.getElementById('stepContent');
+            const stepNames = ['Topic Explanation', 'Example Prompt', 'Execute Example', 'Practice Problem'];
+            
+            currentStep = stepNumber;
+            currentTopic = { index: topicIndex, title: topicTitle };
+            
+            // Update step progress
+            updateStepProgress(stepNumber);
+            
+            // Create step content based on step number
+            let content = '';
+            
+            switch(stepNumber) {
+                case 1:
+                    content = `
+                        <h2>${topicTitle}</h2>
+                        <p class="topic-intro">Effective communication with AI systems requires well-structured prompts. The way you frame your instructions significantly impacts the quality and relevance of the AI's response. A thoughtfully designed prompt serves as a clear roadmap for the AI to follow.</p>
+                        
+                        <div class="key-concepts">
+                            <h3>Key Concepts in Prompt Engineering</h3>
+                            <ul>
+                                <li><strong>Clarity:</strong> Using precise language to avoid ambiguity</li>
+                                <li><strong>Context:</strong> Providing relevant background information</li>
+                                <li><strong>Constraints:</strong> Setting boundaries for the AI's response</li>
+                                <li><strong>Examples:</strong> Demonstrating the expected output format</li>
+                                <li><strong>Instructions:</strong> Giving specific directions on how to process the information</li>
+                            </ul>
+                        </div>
+                        
+                        <p>When crafting prompts for AI systems, think of yourself as a guide helping the AI navigate through your request. The more specific and structured your guidance, the more aligned the output will be with your expectations.</p>
+                        
+                        <div class="anatomy-section">
+                            <h3>Anatomy of an Effective Prompt</h3>
+                            <div class="anatomy-items">
+                                <div class="anatomy-card">
+                                    <h4>1. Role Assignment</h4>
+                                    <p>Define the role or persona the AI should adopt (e.g., "Act as a marketing expert")</p>
+                                </div>
+                                <div class="anatomy-card">
+                                    <h4>2. Context Setting</h4>
+                                    <p>Provide background information and relevant details about your situation</p>
+                                </div>
+                                <div class="anatomy-card">
+                                    <h4>3. Specific Instructions</h4>
+                                    <p>Clearly state what you want the AI to do with detailed parameters</p>
+                                </div>
+                                <div class="anatomy-card">
+                                    <h4>4. Format Requirements</h4>
+                                    <p>Specify how you want the response structured (e.g., bullet points, paragraphs)</p>
+                                </div>
+                                <div class="anatomy-card">
+                                    <h4>5. Constraints & Limitations</h4>
+                                    <p>Set boundaries for the response (e.g., word count, tone, focus areas)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>By understanding and implementing these structural elements, you can craft prompts that consistently yield high-quality, relevant responses from AI systems. In the next section, we'll examine specific examples of well-structured prompts and analyze why they work effectively.</p>
+                        
+                        <button class="next-step-btn" onclick="nextStep()">Next: Example Prompt →</button>
+                    `;
+                    break;
+                case 2:
+                    content = `
+                        <h2>Example Prompt</h2>
+                        <p>This example shows how to create a well-structured prompt that gets better results from AI models. Try it yourself to see how the AI responds to clear, specific instructions.</p>
+                        
+                        <div class="prompt-example-box">
+                            <div class="prompt-label">PROMPT</div>
+                            <div class="prompt-text">
+                                I need to write a professional email to a client who has missed their payment deadline by two weeks. The client is a long-term partner, and I want to maintain a good relationship while being firm about the payment. Please write an email that: 1. Reminds them about the missed payment in a professional tone 2. References our long-standing relationship 3. Clearly states the consequences of continued non-payment 4. Offers a simple way to resolve the situation 5. Ends on a positive note about future collaboration
+                            </div>
+                        </div>
+                        
+                        <button class="try-prompt-btn" onclick="tryThisPrompt()">🔒 Try this prompt</button>
+                        
+                        <div class="navigation-buttons">
+                            <button class="prev-step-btn" onclick="previousStep()">← Previous</button>
+                            <button class="next-step-btn" onclick="nextStep()">Next: Execute →</button>
+                        </div>
+                    `;
+                    break;
+                case 3:
+                    // This step is handled by the AI Playground on the right
+                    content = `
+                        <h2>Execute Example Prompt</h2>
+                        <p>Now let's see the prompt in action! The AI Playground on the right is ready for you to try the example prompt.</p>
+                        
+                        <div class="instructions-box">
+                            <h3>Instructions:</h3>
+                            <ol>
+                                <li>Copy the example prompt from the previous step</li>
+                                <li>Paste it into the AI Playground on the right</li>
+                                <li>Click the send button to execute</li>
+                                <li>Observe how the AI responds to the structured prompt</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="navigation-buttons">
+                            <button class="prev-step-btn" onclick="previousStep()">← Previous</button>
+                            <button class="next-step-btn" onclick="nextStep()">Next: Practice →</button>
+                        </div>
+                    `;
+                    // Enable the AI Playground
+                    document.getElementById('chatInput').removeAttribute('readonly');
+                    document.getElementById('chatInput').placeholder = "Paste the example prompt here...";
+                    break;
+                case 4:
+                    content = `
+                        <h2>Practice Problem</h2>
+                        
+                        <div class="scenario-box">
+                            <h3>Scenario:</h3>
+                            <p>You need to create a prompt that will help an AI generate a detailed business plan for a new coffee shop. The plan should include market analysis, financial projections, and marketing strategies.</p>
+                        </div>
+                        
+                        <div class="instructions-box">
+                            <h3>Instructions:</h3>
+                            <p>Write a prompt that will guide the AI to create a comprehensive business plan with all necessary sections. Consider how to structure your prompt to get the most detailed and useful response.</p>
+                            <ul>
+                                <li>Think about what specific sections the business plan should include</li>
+                                <li>Consider how to request financial data that would be realistic</li>
+                                <li>Include instructions for formatting the response in a clear, organized manner</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="try-btn" onclick="enablePracticeMode()">Try this</button>
+                            <button class="show-answer-btn" onclick="showSuggestedAnswer()">Show Suggested Answer</button>
+                        </div>
+                        
+                        <div id="suggestedAnswer" class="suggested-answer" style="display: none;">
+                            <h4>Suggested Answer:</h4>
+                            <div class="prompt-example-box">
+                                <div class="prompt-text">
+                                    "Act as a business consultant with expertise in food service startups. Create a detailed business plan for a new specialty coffee shop located in a downtown business district. Include the following sections: 1. Executive Summary (150-200 words) 2. Market Analysis - competitor analysis, target demographics, market size 3. Financial Projections - startup costs breakdown, 12-month cash flow forecast, break-even analysis 4. Marketing Strategy - launch campaign, ongoing marketing tactics, customer retention plans 5. Operations Plan - staffing requirements, supplier relationships, daily operations. Format with clear section headers and use tables for financial data. Keep under 2000 words total."
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="navigation-buttons">
+                            <button class="prev-step-btn" onclick="previousStep()">← Previous</button>
+                            <button class="next-step-btn" onclick="showFeedback()">Complete Course →</button>
+                        </div>
+                    `;
+                    // Enable practice mode in AI Playground
+                    document.getElementById('chatInput').placeholder = "Write your prompt solution here...";
+                    break;
+            }
+            
+            stepContent.innerHTML = content;
+            
+            // Update active step styling
+            document.querySelectorAll('.topic-step-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const clickedStep = document.querySelector(`#topic-steps-${topicIndex} .topic-step-item:nth-child(${stepNumber})`);
+            if (clickedStep) clickedStep.classList.add('active');
+        }
+        
+        function updateStepProgress(step) {
+            document.getElementById('currentStepNum').textContent = step;
+            document.querySelectorAll('.progress-dots .dot').forEach((dot, index) => {
+                if (index < step) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps && currentTopic) {
+                showStepContent(currentTopic.index, currentStep + 1, currentTopic.title);
+            } else if (currentStep === totalSteps) {
+                showFeedback();
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 1 && currentTopic) {
+                showStepContent(currentTopic.index, currentStep - 1, currentTopic.title);
+            }
+        }
+        
+        function tryThisPrompt() {
+            const prompt = "I need to write a professional email to a client who has missed their payment deadline by two weeks...";
+            document.getElementById('chatInput').value = prompt;
+            document.getElementById('chatInput').focus();
+        }
+        
+        function enablePracticeMode() {
+            document.getElementById('chatInput').value = '';
+            document.getElementById('chatInput').focus();
+            document.getElementById('chatInput').placeholder = "Write your business plan prompt here...";
+        }
+        
+        function showSuggestedAnswer() {
+            document.getElementById('suggestedAnswer').style.display = 'block';
+        }
+        
+        function showFeedback() {
+            const stepContent = document.getElementById('stepContent');
+            updateStepProgress(5);
+            
+            stepContent.innerHTML = `
+                <div class="feedback-container">
+                    <div class="completion-badge">
+                        <span class="trophy">🏆</span>
+                        <span class="complete-text">Course Complete!</span>
+                    </div>
+                    
+                    <h2>AI Feedback on Your Prompt</h2>
+                    <p class="feedback-intro">Our AI has analyzed your prompt performance. Here's personalized feedback to help you improve:</p>
+                    
+                    <div class="feedback-section positive">
+                        <h3>✅ What Worked Well</h3>
+                        <ul>
+                            <li>Good use of specific details in your requirements</li>
+                            <li>Clear structure with separate sections for context and instructions</li>
+                            <li>Effective use of constraints to guide the AI response</li>
+                            <li>Strong opening statement that clearly defined your goal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feedback-section improvement">
+                        <h3>⚠️ Areas for Improvement</h3>
+                        <ul>
+                            <li>Your prompt could be more concise - some sections were unnecessarily verbose</li>
+                            <li>Some instructions were ambiguous and could be interpreted in multiple ways</li>
+                            <li>Missing specific output format requirements which led to inconsistent results</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feedback-section suggestions">
+                        <h3>💡 Suggestions for Next Time</h3>
+                        <ul>
+                            <li>Try using numbered lists for sequential instructions to improve clarity</li>
+                            <li>Consider adding examples to clarify your expectations for complex requests</li>
+                            <li>Specify your preferred output format (e.g., bullet points, paragraphs, table) for more consistent results</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="lesson-feedback">
+                        <h3>Your Feedback on This Lesson</h3>
+                        <p>How would you rate this lesson?</p>
+                        <div class="rating-emojis">
+                            <button class="emoji-btn" data-rating="1">😞<br>Poor</button>
+                            <button class="emoji-btn" data-rating="2">😐<br>Fair</button>
+                            <button class="emoji-btn" data-rating="3">😊<br>Good</button>
+                            <button class="emoji-btn" data-rating="4">😃<br>Great</button>
+                            <button class="emoji-btn" data-rating="5">🤩<br>Excellent</button>
+                        </div>
+                        
+                        <div class="comment-section">
+                            <p>Do you have any comments or suggestions?</p>
+                            <textarea placeholder="Share your thoughts about this lesson..." rows="4"></textarea>
+                        </div>
+                        
+                        <button class="submit-feedback-btn">Submit Feedback</button>
+                    </div>
+                    
+                    <div class="nav-actions">
+                        <button class="review-btn" onclick="location.reload()">↻ Review Lesson</button>
+                        <button class="next-topic-btn" onclick="window.location.href='topics.html'">Next Topic: Advanced Prompt Techniques →</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add emoji rating functionality
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        }
+        
+        // Simple chat functionality for AI Playground
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messages = document.getElementById('chatMessages');
+            
+            if (input.value.trim()) {
+                // Remove start message if exists
+                const startMsg = messages.querySelector('.start-message');
+                if (startMsg) startMsg.remove();
+                
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-message user';
+                userMsg.innerHTML = `<p>${input.value}</p>`;
+                messages.appendChild(userMsg);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'chat-message ai';
+                    aiMsg.innerHTML = `<p>This is a simulated AI response. In a real implementation, this would connect to an LLM API to generate actual responses based on your prompt.</p>`;
+                    messages.appendChild(aiMsg);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+    </script>
+</body>
+
+</html>

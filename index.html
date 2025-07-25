@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptMaster - AI Prompt Engineering Learning Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Login Page -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <h1>PromptMaster</h1>
+                <p>AI Prompt Engineering Learning Portal</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>New employee? Contact IT for account setup</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email && password) {
+                // Redirect to course selection page
+                window.location.href = 'course-selection.html';
+            }
+        });
+
+        // Focus on email field on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('email').focus();
+        });
+    </script>
+</body>
+
+</html>
