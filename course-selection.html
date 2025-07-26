@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Selection - PromptMaster</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <header class="app-header">
+            <div class="header-container">
+                <h1 class="app-logo">PromptMaster</h1>
+                <div class="user-menu">
+                    <span class="user-name">Welcome, User</span>
+                    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="course-selection-container">
+            <div class="selection-header">
+                <h2>Choose Your Learning Path</h2>
+                <p>Select a difficulty level that matches your current prompt engineering skills</p>
+            </div>
+
+            <div class="course-levels">
+                <!-- Beginner Level -->
+                <div class="course-card beginner">
+                    <div class="card-header">
+                        <span class="level-icon">🌱</span>
+                        <h3>Beginner</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="level-description">Perfect for those new to AI prompting. Learn the fundamentals of
+                            crafting effective prompts.</p>
+                        <ul class="topics-preview">
+                            <li>Introduction to AI Prompting</li>
+                            <li>Basic Prompt Structure</li>
+                            <li>Common Prompt Patterns</li>
+                            <li>Avoiding Common Mistakes</li>
+                        </ul>
+                        <div class="card-stats">
+                            <span class="stat-item">📚 8 Topics</span>
+                            <span class="stat-item">⏱️ 2-3 hours</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary level-btn" onclick="selectCourse('beginner')">
+                        Start Beginner Course
+                    </button>
+                </div>
+
+                <!-- Intermediate Level -->
+                <div class="course-card intermediate">
+                    <div class="card-header">
+                        <span class="level-icon">🚀</span>
+                        <h3>Intermediate</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="level-description">Build on your foundation with advanced techniques and complex
+                            prompt scenarios.</p>
+                        <ul class="topics-preview">
+                            <li>Advanced Prompt Techniques</li>
+                            <li>Context Management</li>
+                            <li>Multi-turn Conversations</li>
+                            <li>Domain-Specific Prompting</li>
+                        </ul>
+                        <div class="card-stats">
+                            <span class="stat-item">📚 12 Topics</span>
+                            <span class="stat-item">⏱️ 4-5 hours</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary level-btn" onclick="selectCourse('intermediate')">
+                        Start Intermediate Course
+                    </button>
+                </div>
+
+                <!-- Advanced Level -->
+                <div class="course-card advanced">
+                    <div class="card-header">
+                        <span class="level-icon">💎</span>
+                        <h3>Advanced</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="level-description">Master complex prompting strategies and learn to optimize AI
+                            outputs for professional use.</p>
+                        <ul class="topics-preview">
+                            <li>Prompt Engineering Patterns</li>
+                            <li>System Design with AI</li>
+                            <li>Performance Optimization</li>
+                            <li>Enterprise AI Integration</li>
+                        </ul>
+                        <div class="card-stats">
+                            <span class="stat-item">📚 15 Topics</span>
+                            <span class="stat-item">⏱️ 6-8 hours</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary level-btn" onclick="selectCourse('advanced')">
+                        Start Advanced Course
+                    </button>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h4>Not sure where to start?</h4>
+                <p>Take our <a href="#" class="skill-assessment-link">skill assessment</a> to find the right level for
+                    you.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function selectCourse(level) {
+            // Store selected level
+            sessionStorage.setItem('selectedLevel', level);
+            // Redirect to topics page
+            window.location.href = 'topics.html';
+        }
+    </script>
+</body>
+
+</html>

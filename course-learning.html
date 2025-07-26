@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Learning - PromptMaster</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="course-learning.css">
+</head>
+
+<body>
+    <div class="learning-app">
+        <!-- Header -->
+        <header class="learning-header">
+            <div class="header-content">
+                <button class="hamburger-btn" id="hamburgerBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="app-title">PromptMaster</h1>
+                <div class="header-right">
+                    <span class="course-level" id="courseLevel">Beginner Course</span>
+                    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="learning-container">
+            <!-- Sidebar -->
+            <aside class="course-sidebar" id="courseSidebar">
+                <div class="sidebar-content">
+                    <h2 class="sidebar-title">Course Progress</h2>
+
+                    <!-- Topic 1 -->
+                    <div class="topic-section" id="topic-1" onclick="loadTopic(1)">
+                        <div class="topic-header">
+                            <span class="topic-number">1</span>
+                            <span class="topic-title" id="topic1Title">Understanding Prompt Structure</span>
+                            <span class="topic-status" id="topic1Status">○</span>
+                        </div>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="topic-section" id="topic-2" onclick="loadTopic(2)">
+                        <div class="topic-header">
+                            <span class="topic-number">2</span>
+                            <span class="topic-title" id="topic2Title">Context and Clarity</span>
+                            <span class="topic-status" id="topic2Status">○</span>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="topic-section" id="topic-3" onclick="loadTopic(3)">
+                        <div class="topic-header">
+                            <span class="topic-number">3</span>
+                            <span class="topic-title" id="topic3Title">Format and Constraints</span>
+                            <span class="topic-status" id="topic3Status">○</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Overview -->
+                    <div class="sidebar-footer">
+                        <div class="progress-info">
+                            <span>Course Progress</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text" id="progressText">0% Complete</span>
+                        </div>
+
+                        <div class="time-info">
+                            <span class="time-icon">⏱️</span>
+                            <span id="estimatedTime">Estimated time: 20-25 min</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="content-area" id="contentArea">
+                <div class="welcome-screen">
+                    <h2>Welcome to <span id="welcomeCourseLevel">Beginner</span> Course</h2>
+                    <p>Get started with your AI prompt engineering journey.</p>
+
+                    <div class="course-overview">
+                        <h3>What You'll Learn</h3>
+                        <div class="learning-objectives">
+                            <div class="objective-card">
+                                <span class="objective-icon">🎯</span>
+                                <h4>Clear Communication</h4>
+                                <p>Master the art of writing clear, specific prompts</p>
+                            </div>
+                            <div class="objective-card">
+                                <span class="objective-icon">🔧</span>
+                                <h4>Practical Skills</h4>
+                                <p>Apply prompt patterns to real-world scenarios</p>
+                            </div>
+                            <div class="objective-card">
+                                <span class="objective-icon">📈</span>
+                                <h4>Best Practices</h4>
+                                <p>Learn industry-standard prompt engineering techniques</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="start-course">
+                        <button class="btn btn-primary btn-large" onclick="loadStep(1, 1)">
+                            Start Learning →
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <script src="course-learning.js"></script>
+</body>
+
+</html>
